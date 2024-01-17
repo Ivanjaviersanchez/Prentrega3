@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+
+    <title> GESTION DE PRODUCTOS </title>
+  </head>
+
+  <body>
+    <div id="app"></div>  
+    <div class="row">
+      <div class="text-left m-5">
+
+        <form id="formIngresar">
+          <h3>Ingresar productos</h3>
+          <label for="">Nombre</label>
+          <input id="nombreInput" type="text">
+          <br>
+          <label for="">Stock</label>
+          <input id="stockInput" type="number">
+          <br>
+          <label for="">Precio</label>
+          <input id="precioInput" type="number">
+          <br>
+          <button type="submit" class="ms-3 btn btn-primary">AGREGAR PRODUCTO</button>
+        </form>
+        
+        <form id="formEliminar">
+          <br>
+          <h3>Eliminar producto por nombre</h3>
+          <label for="">Ingresar nombre </label>
+          <input id="nombreInputEliminar" type="text">
+          <br>
+          <button type="submit" class="ms-3 btn btn-primary">ELIMINAR PRODUCTO</button>
+          <br>
+        </form>
+        
+        <form id="formAgregarStock">
+          <br>
+          <h3>Ingresar stock a un producto</h3>
+          <label for="">Ingresar nombre</label>
+          <input id="nombreAgregarInput" type="text">
+          <br>
+          <label for="">Ingresar unidades</label>
+          <input id="unidadesInput" type="number">
+          <br>
+          <button type="submit" class="ms-3 btn btn-primary">AGREGAR STOCK</button>
+          <br>
+        </form>
+
+        <form id="formModificarPrecio">
+          <br>
+          <h3>Modificar precio a un producto</h3>
+          <label for="">Ingresar nombre</label>
+          <input id="precioModificarinput" type="text">
+          <br>
+          <label for="">Precio actualizado</label>
+          <input id="precioActualizadoinput" type="number">
+          <br>
+          <button type="submit" class="ms-3 btn btn-primary">ACTUALIZAR PRECIO</button>
+          <br>
+        </form>
+          
+        <div id="listaProductos"></div>
+
+      </div>
+    </div>
+   
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
+
