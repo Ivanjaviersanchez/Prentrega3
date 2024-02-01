@@ -147,10 +147,10 @@ export const app = () =>{
         productos.forEach(producto => {
             let tarjetaProducto = document.createElement("div");
             tarjetaProducto.className = "d-flex flex-column border border-1 rounded-2 p-2 w-50 m-1 ";
-            tarjetaProducto.innerHTML = `<p> id: ${producto.productoID}</p>
-                                         <p> nombre: ${producto.nombre}</p>
-                                         <p> stock: ${producto.stock}</p>
-                                         <p> precio: ${producto.precio}</p>`;
+            tarjetaProducto.innerHTML = `<p> ID: ${producto.productoID}</p>
+                                         <p> PRODUCTO: ${producto.nombre}</p>
+                                         <p> STOCK: ${producto.stock} unid.</p>
+                                         <p> PRECIO: $ ${producto.precio}</p>`;
             listaProductos.appendChild(tarjetaProducto);
         });
     }
@@ -207,6 +207,35 @@ export const app = () =>{
         actualizarListaProductos();
     };
     
+    document.getElementById("btnActualizarLista").addEventListener("click", () => {
+        actualizarListaProductos();
+    });
+
+    document.getElementById("btnBorrarLista").addEventListener("click", () => {
+        Swal.fire({
+            title: "Desea borrar la lista?",
+            text: "Se eliminaran todos los datos almacenados!",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "ACEPTAR",
+            cancelButtonText: "CANCELAR",
+            cancelButtonColor: "red"
+
+        }).then((resp) => {
+                if (resp.isConfirmed) {
+                    localStorage.clear();
+                    productos = [];
+                    Swal.fire({
+                        title: "Lista borrada!",
+                        text: "Todos los datos fueron eliminados.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            });
+
+    });
 }
 
 
