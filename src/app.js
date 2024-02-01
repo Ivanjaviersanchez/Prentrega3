@@ -1,5 +1,9 @@
-              //-----VARIABLES GLOBALES-----
-    
+ //Importa la libreria sweetalert2
+import Swal from 'sweetalert2' 
+
+export const app = () =>{          
+           //-----VARIABLES GLOBALES-----  
+
     //Trae los formularios 
     let formIngresar = document.querySelector("#formIngresar");
     let formEliminar = document.querySelector("#formEliminar");
@@ -27,7 +31,13 @@
         productoID++;
         producto.nombre = producto.nombre.toLowerCase();
         productos.push(producto);
-        alert(`Se ingreso el producto: ${producto.nombre} con el ID: ${productoID}`);
+        
+        Swal.fire({
+            title:"Nuevo producto ingresado",
+            text:`PRODUCTO: ${producto.nombre} ID: ${producto.productoID}`,
+            icon:"info",
+            confirmButtonText:"ACEPTAR",
+        })
         
         localStorage.setItem("productos", JSON.stringify(productos));
         console.log(productos);
@@ -41,7 +51,11 @@
         let producto = new Producto(nombreInput.value, stockInput, precioInput);
         
         if(productos.some(producto => producto.nombre == nombreInput.value.toLowerCase())){
-            alert("El producto ingresado ya existe");
+            Swal.fire({
+                title:`El producto ${producto.nombre} ya existe`,
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            })
         }else{   
             cargarProducto(producto); 
         }
@@ -53,10 +67,18 @@
         let existe = productos.some(producto => producto.nombre === nombreEliminarProductoMYM); 
         if(existe){
             productos = productos.filter(producto => producto.nombre !== nombreEliminarProductoMYM);       
-            alert(`Se elimino el producto: ${nombreEliminarProducto}`);
+            Swal.fire({
+                titleText:`Se elimino el producto: ${nombreEliminarProducto}`,
+                icon:"info",
+                confirmButtonText:"ACEPTAR",
+            })
             localStorage.setItem("productos", JSON.stringify(productos));
             }else{
-            alert("El nombre ingresado no existe");
+            Swal.fire({
+                titleText:"El nombre ingresado no existe",
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            })
             }      
     };   
     const eliminarProducto = () => {
@@ -75,12 +97,20 @@
         let productoEncontrado = productos.find(producto => producto.nombre === nombreAgregarInput);
         
         if (productoEncontrado) {
-           /*  parseInt(productoEncontrado.stock).value; */
             productoEncontrado.stock += unidadesInput;
-            alert(`Se agregaron ${unidadesInput} unidades al stock de ${nombreAgregarInput}. Stock actual: ${productoEncontrado.stock}`);
+            Swal.fire({
+                title:"Se ingresaron unidades al stock", 
+                text:`PRODUCTO: ${nombreAgregarInput} STOCK INGRESADO: ${unidadesInput} STOCK ACTUAL: ${productoEncontrado.stock}`,
+                icon:"info",
+                confirmButtonText:"ACEPTAR",
+            })
             localStorage.setItem("productos", JSON.stringify(productos));
         } else {
-            alert("El nombre ingresado no existe");
+            Swal.fire({
+                titleText:"El nombre ingresado no existe",
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            })
         }  
     };
 
@@ -93,17 +123,56 @@
     
         if (productoEncontrado) {
             productoEncontrado.precio = precioActualizadoInput;
-            alert(`Se ha actualizado el precio de ${nombreModificarInput} a $ ${precioActualizadoInput}`);
+            Swal.fire({
+                title:"Se actualizo la lista de precios",
+                text:`PRODUCTO: ${nombreModificarInput} PRECIO: $ ${precioActualizadoInput}`,
+                icon:"info",
+                confirmButtonText:"ACEPTAR",
+            })
             localStorage.setItem("productos", JSON.stringify(productos));
         } else {
-            alert("El nombre ingresado no existe");
+            Swal.fire({
+                titleText:"El nombre ingresado no existe",
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            })
         }
     };
+
+
+    const actualizarListaProductos = () => {      //actualiza lista con DOM
+        listaProductos.innerHTML = "";   //lista vacia
+
+        // PLANTILLA DE LISTA DE PRODUCTOS 
+        productos.forEach(producto => {
+            let tarjetaProducto = document.createElement("div");
+            tarjetaProducto.className = "d-flex flex-column border border-1 rounded-2 p-2 w-50 m-1 ";
+            tarjetaProducto.innerHTML = `<p> id: ${producto.productoID}</p>
+                                         <p> nombre: ${producto.nombre}</p>
+                                         <p> stock: ${producto.stock}</p>
+                                         <p> precio: ${producto.precio}</p>`;
+            listaProductos.appendChild(tarjetaProducto);
+        });
+    }
+
+
+ /*     const obtenerProductos = async () => {
+        try{
+            const resp = await fetch("/data/productos.json");
+            const data = await resp.json;
+            productos = [...data]
+            console.log(data);
+
+        }catch(error){
+            console.log(error);
+        } ;
+           
+    } */
 
                // ------EJECUTANDO APLICACION------
     console.log("Ejecutando aplicación");
     console.log(productos);
-
+    actualizarListaProductos();
 
        //Botones de formularios, llamado a las funciones.
     formIngresar.onsubmit = (event) => {
@@ -111,6 +180,7 @@
         ingresarProducto();
         console.log(productos);
         formIngresar.reset();
+        actualizarListaProductos();
     };
 
     formEliminar.onsubmit = (event) => {
@@ -118,6 +188,7 @@
         eliminarProducto();
         console.log(productos);
         formEliminar.reset();
+        actualizarListaProductos();
     };
      
     formAgregarStock.onsubmit = (event) => {
@@ -125,6 +196,7 @@
         agregarStock();
         console.log(productos);
         formAgregarStock.reset();
+        actualizarListaProductos();
     };
      
     formModificarPrecio.onsubmit = (event) => {
@@ -132,25 +204,10 @@
         modificarPrecio();
         console.log(productos);
         formModificarPrecio.reset();
+        actualizarListaProductos();
     };
     
-    document.getElementById("btnActualizarLista").addEventListener("click", () => {
-        // Limpia la lista actual
-        listaProductos.innerHTML = "";
-
-        // PLANTILLA DE LISTA DE PRODUCTOS 
-        productos.forEach ( producto=>{
-            let tarjetaProducto = document.createElement("listaProductos");
-            tarjetaProducto.className = "border border-2 p-3 w-50 m-3";
-            tarjetaProducto.innerHTML = `<p> id: ${producto.productoID}</p>
-                                         <p> nombre: ${producto.nombre}</p>
-                                         <p> stock: ${producto.stock}</p>
-                                         <p> precio: ${producto.precio}</p>;
-                                     `;
-            listaProductos.appendChild(tarjetaProducto);                             
-        }); 
-    });
-
+}
 
 
     
