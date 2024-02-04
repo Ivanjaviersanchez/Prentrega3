@@ -146,7 +146,7 @@ export const app = () =>{
         // PLANTILLA DE LISTA DE PRODUCTOS 
         productos.forEach(producto => {
             let tarjetaProducto = document.createElement("div");
-            tarjetaProducto.className = "d-flex flex-column border border-1 rounded-2 p-2 w-50 m-1 ";
+            tarjetaProducto.classList.add("tarjeta-producto");  // Agregar clase CSS
             tarjetaProducto.innerHTML = `<p> ID: ${producto.productoID}</p>
                                          <p> PRODUCTO: ${producto.nombre}</p>
                                          <p> STOCK: ${producto.stock} unid.</p>

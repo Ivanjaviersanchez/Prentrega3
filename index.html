@@ -13,10 +13,11 @@
     <h2 class=""> GESTION DE PRODUCTOS </h2>
     <div id="app"></div>  
     <div class="row">
-      <div class="text-left m-5">
 
-        <form id="formIngresar">
-          <h3>Ingresar productos</h3>
+      <section class="col-md-auto text-left m-2">
+
+        <form id="formIngresar"  class="formulario">
+          <h4>Ingresar productos</h4>
           <label for="">Nombre</label>
           <input id="nombreInput" type="text">
           <br>
@@ -29,9 +30,9 @@
           <button type="submit" class="ms-3 btn btn-primary">AGREGAR PRODUCTO</button>
         </form>
         
-        <form id="formEliminar">
+        <form id="formEliminar"  class="formulario">
           <br>
-          <h3>Eliminar producto por nombre</h3>
+          <h4>Eliminar producto por nombre</h4>
           <label for="">Ingresar nombre </label>
           <input id="nombreInputEliminar" type="text">
           <br>
@@ -39,9 +40,9 @@
           <br>
         </form>
         
-        <form id="formAgregarStock">
+        <form id="formAgregarStock"  class="formulario">
           <br>
-          <h3>Ingresar stock a un producto</h3>
+          <h4>Ingresar stock a un producto</h4>
           <label for="">Ingresar nombre</label>
           <input id="nombreAgregarInput" type="text">
           <br>
@@ -52,9 +53,9 @@
           <br>
         </form>
 
-        <form id="formModificarPrecio">
+        <form id="formModificarPrecio"  class="formulario">  
           <br>
-          <h3>Modificar precio a un producto</h3>
+          <h4>Modificar precio a un producto</h4>
           <label for="">Ingresar nombre</label>
           <input id="precioModificarinput" type="text">
           <br>
@@ -64,18 +65,21 @@
           <button type="submit" class="ms-3 btn btn-primary">ACTUALIZAR PRECIO</button>
           <br>
         </form>
+      </section>
+
+      <section class="col-md-auto text-right m-2">
 
         <br>
-        <h2 class=""> LISTA DE PRODUCTOS </h2>
+        <h3 class=""> LISTA DE PRODUCTOS </h3>
         <button id="btnActualizarLista" type="submit" class="ms-3 btn btn-primary">ACTUALIZAR LISTA</button>
         <button id="btnBorrarLista" type="submit" class="ms-3 btn btn-primary">BORRAR LISTA</button>
         <div id="listaProductos"></div>
 
-      </div>
+      </section>
+
     </div>
    
     <script type="module" src="/main.js"></script>
-      <!--   <script type="module" src="./src/app.js"></script> -->
 
   </body>
 </html>

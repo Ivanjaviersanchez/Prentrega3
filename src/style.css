@@ -1,7 +1,36 @@
+
+body {
+    background-color:lightgray;
+
+    /* Imagen de fondo*/
+    /* background-image: url('ruta/de/la/imagen.jpg'); */
+    /* background-size: cover; */
+}
 h2{
-    color: rgb(60, 60, 248);
+    color: rgb(106, 183, 235);
+    text-align: center;
 }
 h3{
-    color: rgb(60, 60, 248);
-   
+    color: rgb(106, 183, 235);
+}
+h4{
+    color: rgb(106, 183, 235);
+}
+.formulario {
+    width: 350px;
+    height: 220px;
+    border: 2px solid rgb(99, 136, 199);
+    margin: 20px;
+    padding: 10px;
+    background-color: rgb(200, 203, 214);
+}
+
+.tarjeta-producto {
+    background-color:  rgb(187, 222, 245);
+    /* Recuadro*/ 
+    width: 300px; 
+    height: 170px;
+    border: 2px solid rgb(99, 136, 199);
+    margin: 20px;
+    padding: 10px;
 }
