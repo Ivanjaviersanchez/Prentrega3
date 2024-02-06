@@ -49,9 +49,15 @@ export const app = () =>{
         let precioInput = parseFloat(document.querySelector("#precioInput").value);
        
         let producto = new Producto(nombreInput.value, stockInput, precioInput);
-        
-        //if(nombreInput === "" || stockInput === "" || isNaN(stockInput) || precioInput === "" || isNaN(precioInput)){
 
+        if(nombreInput.value === "" || isNaN(stockInput) || isNaN(precioInput)){
+            Swal.fire({
+                title:`Debe ingresar un valor en cada campo`,
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            });
+            return;
+        }else{
             if(productos.some(producto => producto.nombre == nombreInput.value.toLowerCase())){
                 Swal.fire({
                     title:`El producto ${producto.nombre} ya existe`,
@@ -61,19 +67,14 @@ export const app = () =>{
             }else{   
                 cargarProducto(producto); 
             }
-        //}else{
-          //  Swal.fire({
-            //    title:`Debe ingresar un valor en cada campo`,
-              //  icon:"error",
-                //confirmButtonText:"ACEPTAR",
-           // })
-       // }
+        }
     };
 
 
     const eliminarNombre = (nombreEliminarProducto) => {
         let nombreEliminarProductoMYM = nombreEliminarProducto.toLowerCase();
         let existe = productos.some(producto => producto.nombre === nombreEliminarProductoMYM); 
+        
         if(existe){
             productos = productos.filter(producto => producto.nombre !== nombreEliminarProductoMYM);       
             Swal.fire({
@@ -92,34 +93,51 @@ export const app = () =>{
     };   
     const eliminarProducto = () => {
         let nombreEliminarProducto = document.querySelector("#nombreInputEliminar").value;
-        eliminarNombre(nombreEliminarProducto); 
-        return nombreEliminarProducto ;
-            
+        if(nombreEliminarProducto === ""){
+            Swal.fire({
+                title:`Debe ingresar un valor en cada campo`,
+                icon:"error",
+                confirmButtonText:"ACEPTAR",
+            });
+            return;
+        }else{
+            eliminarNombre(nombreEliminarProducto); 
+            return nombreEliminarProducto ;
+
+        }    
     };
      
 
     const agregarStock = () => {
         let nombreAgregarInput = document.querySelector("#nombreAgregarInput").value.toLowerCase();
         let unidadesInput = parseInt(document.querySelector("#unidadesInput").value);
-    
         let productoEncontrado = productos.find(producto => producto.nombre === nombreAgregarInput);
         
-        if (productoEncontrado) {
-            productoEncontrado.stock += unidadesInput;
+        if(nombreAgregarInput.value === "" || isNaN(unidadesInput)){
             Swal.fire({
-                title:"Se ingresaron unidades al stock", 
-                text:`PRODUCTO: ${nombreAgregarInput} STOCK INGRESADO: ${unidadesInput} STOCK ACTUAL: ${productoEncontrado.stock}`,
-                icon:"info",
-                confirmButtonText:"ACEPTAR",
-            })
-            localStorage.setItem("productos", JSON.stringify(productos));
-        } else {
-            Swal.fire({
-                titleText:"El nombre ingresado no existe",
+                title:`Debe ingresar un valor en cada campo`,
                 icon:"error",
                 confirmButtonText:"ACEPTAR",
-            })
-        }  
+            });
+            return;
+        }else{
+            if (productoEncontrado) {
+                productoEncontrado.stock += unidadesInput;
+                Swal.fire({
+                    title:"Se ingresaron unidades al stock", 
+                    text:`PRODUCTO: ${nombreAgregarInput} STOCK INGRESADO: ${unidadesInput} STOCK ACTUAL: ${productoEncontrado.stock}`,
+                    icon:"info",
+                    confirmButtonText:"ACEPTAR",
+                })
+                localStorage.setItem("productos", JSON.stringify(productos));
+            } else {
+                Swal.fire({
+                    titleText:"El nombre ingresado no existe",
+                    icon:"error",
+                    confirmButtonText:"ACEPTAR",
+                })
+            }  
+        };    
     };
 
    
@@ -128,23 +146,32 @@ export const app = () =>{
         let precioActualizadoInput = parseInt(document.querySelector("#precioActualizadoinput").value);
     
         let productoEncontrado = productos.find(producto => producto.nombre === nombreModificarInput);
-    
-        if (productoEncontrado) {
-            productoEncontrado.precio = precioActualizadoInput;
+        
+        if(nombreModificarInput.value === "" || isNaN(precioActualizadoInput)){
             Swal.fire({
-                title:"Se actualizo la lista de precios",
-                text:`PRODUCTO: ${nombreModificarInput} PRECIO: $ ${precioActualizadoInput}`,
-                icon:"info",
-                confirmButtonText:"ACEPTAR",
-            })
-            localStorage.setItem("productos", JSON.stringify(productos));
-        } else {
-            Swal.fire({
-                titleText:"El nombre ingresado no existe",
+                title:`Debe ingresar un valor en cada campo`,
                 icon:"error",
                 confirmButtonText:"ACEPTAR",
-            })
-        }
+            });
+            return;
+        }else{
+            if (productoEncontrado) {
+                productoEncontrado.precio = precioActualizadoInput;
+                Swal.fire({
+                    title:"Se actualizo la lista de precios",
+                    text:`PRODUCTO: ${nombreModificarInput} PRECIO: $ ${precioActualizadoInput}`,
+                    icon:"info",
+                    confirmButtonText:"ACEPTAR",
+                })
+                localStorage.setItem("productos", JSON.stringify(productos));
+            } else {
+                Swal.fire({
+                    titleText:"El nombre ingresado no existe",
+                    icon:"error",
+                    confirmButtonText:"ACEPTAR",
+                })
+            };
+        };
     };
 
 
