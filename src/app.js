@@ -11,9 +11,9 @@ export const app = () =>{
     let formModificarPrecio = document.querySelector("#formModificarPrecio");
     let listaProductos = document.querySelector("#listaProductos");
            
-    //Array de almacenamiento
-    let productos =  JSON.parse(localStorage.getItem("productos")) || [] ;
-
+    //Arrays de almacenamiento
+    let productos =  JSON.parse(localStorage.getItem("productos")) || [] ;   //array de productos
+    let productosOferta = JSON.parse(JSON.stringify(productos));      //array de productos en oferta (fetch)  
              //-----FUNCIONES GLOBALES------
 
     //Agregar productos al stock
@@ -50,15 +50,24 @@ export const app = () =>{
        
         let producto = new Producto(nombreInput.value, stockInput, precioInput);
         
-        if(productos.some(producto => producto.nombre == nombreInput.value.toLowerCase())){
-            Swal.fire({
-                title:`El producto ${producto.nombre} ya existe`,
-                icon:"error",
-                confirmButtonText:"ACEPTAR",
-            })
-        }else{   
-            cargarProducto(producto); 
-        }
+        //if(nombreInput === "" || stockInput === "" || isNaN(stockInput) || precioInput === "" || isNaN(precioInput)){
+
+            if(productos.some(producto => producto.nombre == nombreInput.value.toLowerCase())){
+                Swal.fire({
+                    title:`El producto ${producto.nombre} ya existe`,
+                    icon:"error",
+                    confirmButtonText:"ACEPTAR",
+                })
+            }else{   
+                cargarProducto(producto); 
+            }
+        //}else{
+          //  Swal.fire({
+            //    title:`Debe ingresar un valor en cada campo`,
+              //  icon:"error",
+                //confirmButtonText:"ACEPTAR",
+           // })
+       // }
     };
 
 
@@ -84,7 +93,6 @@ export const app = () =>{
     const eliminarProducto = () => {
         let nombreEliminarProducto = document.querySelector("#nombreInputEliminar").value;
         eliminarNombre(nombreEliminarProducto); 
-        console.log(nombreEliminarProducto);
         return nombreEliminarProducto ;
             
     };
@@ -156,19 +164,28 @@ export const app = () =>{
     }
 
 
- /*     const obtenerProductos = async () => {
-        try{
-            const resp = await fetch("/data/productos.json");
-            const data = await resp.json;
-            productos = [...data]
-            console.log(data);
+    /*const obtenerProductosOferta = async (producto) => {
+       const resp = await fetch("/data/productos.json",{
+            method:"POST",
+            body:JSON.stringify(producto),
+            headers:{"Content-type":"application/json; charset=UTF-8",},
+        });
+        const data = await resp.json();
+        console.log(data);
+        return(data);
 
+
+         try{
+            const resp = await fetch("/data/productos.json");
+            const data = await resp.json();
+            productosOferta= [...data]
+            console.log(productosOferta);
+    
         }catch(error){
             console.log(error);
-        } ;
-           
-    } */
-
+        } ; */
+     
+ 
                // ------EJECUTANDO APLICACION------
     console.log("Ejecutando aplicación");
     console.log(productos);
@@ -206,9 +223,22 @@ export const app = () =>{
         formModificarPrecio.reset();
         actualizarListaProductos();
     };
+  /*   formAgregarOferta.onsubmit = (event) => {
+        event.preventDefault();
+        obtenerProductosOferta();
+        console.log(productos);
+        formAgregarOferta.reset();
+        actualizarListaProductos();
+    }; */
     
     document.getElementById("btnActualizarLista").addEventListener("click", () => {
         actualizarListaProductos();
+        Swal.fire({
+            title: "La lista fue actualizada",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 4000
+        });
     });
 
     document.getElementById("btnBorrarLista").addEventListener("click", () => {
@@ -230,8 +260,9 @@ export const app = () =>{
                         text: "Todos los datos fueron eliminados.",
                         icon: "success",
                         showConfirmButton: false,
-                        timer: 3000
+                        timer: 4000
                     });
+                    actualizarListaProductos();
                 }
             });
 
