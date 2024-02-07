@@ -15,9 +15,10 @@ export const app = () =>{
     //Arrays de almacenamiento
     let productos =  JSON.parse(localStorage.getItem("productos")) || [] ;   //array de productos
     let productosOferta = [];      //array de productos en oferta (fetch)  
+
              //-----FUNCIONES GLOBALES------
 
-    //Agregar productos al stock
+    //CONSTRUCTOR CLASE Producto
     let productoID = productos.length;        
     class Producto {
         constructor(nombre, stock, precio){
@@ -28,6 +29,7 @@ export const app = () =>{
         }
     }      
 
+    //FUNCIONES DEL FORMULARIO formIngresar
     const cargarProducto = (producto) => {
         productoID++;
         producto.nombre = producto.nombre.toLowerCase();
@@ -71,7 +73,7 @@ export const app = () =>{
         }
     };
 
-
+    //FUNCIONES DEl FORMULARIO formEliminar
     const eliminarNombre = (nombreEliminarProducto) => {
         let nombreEliminarProductoMYM = nombreEliminarProducto.toLowerCase();
         let existe = productos.some(producto => producto.nombre === nombreEliminarProductoMYM); 
@@ -92,6 +94,7 @@ export const app = () =>{
             })
             }      
     };   
+
     const eliminarProducto = () => {
         let nombreEliminarProducto = document.querySelector("#nombreInputEliminar").value;
         if(nombreEliminarProducto === ""){
@@ -104,11 +107,10 @@ export const app = () =>{
         }else{
             eliminarNombre(nombreEliminarProducto); 
             return nombreEliminarProducto ;
-
         }    
     };
      
-
+    //FUNCION DEL FORMULARIO formAgregarStock
     const agregarStock = () => {
         let nombreAgregarInput = document.querySelector("#nombreAgregarInput").value.toLowerCase();
         let unidadesInput = parseInt(document.querySelector("#unidadesInput").value);
@@ -141,7 +143,7 @@ export const app = () =>{
         };    
     };
 
-   
+    //FUNCION DEL FORMULARIO formModificarPrecio
     const modificarPrecio = () => {
         let nombreModificarInput = document.querySelector("#precioModificarinput").value.toLowerCase();
         let precioActualizadoInput = parseInt(document.querySelector("#precioActualizadoinput").value);
@@ -175,8 +177,8 @@ export const app = () =>{
         };
     };
 
-
-    const actualizarListaProductos = () => {      //actualiza lista con DOM
+    //FUNCION PARA ACTUALIZAR/CARGAR CON DOM listaProductos
+    const actualizarListaProductos = () => {      
         listaProductos.innerHTML = "";   //lista vacia
 
         // PLANTILLA DE LISTA DE PRODUCTOS 
@@ -191,37 +193,38 @@ export const app = () =>{
         });
     }
 
-
-    const obtenerProductosOferta = async () => {    // Funcion asincrona Fetch productos.json
-        try{
+    //FUNCION ASINCRONA PARA CARGAR LOS DATOS CON PETICION FETCH A productos.json
+    const obtenerProductosOferta = async () => {   
+        try{ 
             const resp = await fetch("/data/productos.json");
             const data = await resp.json();
 
             productosOferta = [...data];
             console.log(productosOferta);
-          
-         /*    listaProductosOferta.innerHTML = "";   //lista vacia
-            productos.forEach(producto => {
-                 let tarjetaProductoOferta = document.createElement("div");
-                 tarjetaProductoOferta.classList.add("tarjeta-producto");  // Agregar clase CSS
-                 tarjetaProductoOferta.innerHTML = `<p> ID: ${producto.productoID}</p>
-                                                    <p> PRODUCTO: ${producto.nombre}</p>
-                                                    <p> STOCK: ${producto.stock} unid.</p>
-                                                    <p> PRECIO: $ ${producto.precio}</p>`;
-                 listaProductosOferta.appendChild(tarjetaProductoOferta);
-            }); */
+            
+            /* listaProductosOferta.innerHTML = "";   //lista vacia */ 
+            productosOferta.forEach(producto => {
+                let tarjetaProductoOferta = document.createElement("div");
+                tarjetaProductoOferta.classList.add("tarjeta-producto");  // Agregar clase CSS
+                tarjetaProductoOferta.innerHTML = `<p> ID: ${producto.productoID}</p>
+                                                   <p> PRODUCTO: ${producto.nombre}</p>
+                                                   <p> STOCK: ${producto.stock} unid.</p>
+                                                   <p> PRECIO: $ ${producto.precio}</p>`;
+                listaProductosOferta.appendChild(tarjetaProductoOferta);
+            });  
 
         }catch(error){
             console.log(error);
-        } ; 
+        }; 
     }
  
                // ------EJECUTANDO APLICACION------
+
     console.log("Ejecutando aplicación");
     console.log(productos);
     actualizarListaProductos();
 
-       //Botones de formularios, llamado a las funciones.
+    //BOTONES DE FORMULARIOS, LLAMADO A LAS FUNCIONES.
     formIngresar.onsubmit = (event) => {
         event.preventDefault();
         ingresarProducto();
@@ -253,7 +256,8 @@ export const app = () =>{
         formModificarPrecio.reset();
         actualizarListaProductos();
     };
-
+    
+    //BOTONES PARA ACTUALIZAR Y BORRAR LISTA CON DOM listaProductos
     document.getElementById("btnActualizarLista").addEventListener("click", () => {
         actualizarListaProductos();
         Swal.fire({
@@ -290,15 +294,16 @@ export const app = () =>{
             });
 
     });
-    document.getElementById("btnListaOfertas").addEventListener("click", () => {
-       obtenerProductosOferta();  
-       Swal.fire({
-        title: "Se cargo el listado de productos en ofertas",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 4000
-    });
 
+    //BOTON PARA CARGAR LOS DATOS CON PETICION FETCH A productos.json
+    document.getElementById("btnListaOfertas").addEventListener("click", () => {
+        obtenerProductosOferta();  
+        Swal.fire({
+            title: "Se cargo el listado de productos en ofertas",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 4000
+        });
     });
 }
 
