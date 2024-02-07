@@ -10,10 +10,11 @@ export const app = () =>{
     let formAgregarStock = document.querySelector("#formAgregarStock");
     let formModificarPrecio = document.querySelector("#formModificarPrecio");
     let listaProductos = document.querySelector("#listaProductos");
+    let listaProductosOferta = document.querySelector("#listaProductosOferta")
            
     //Arrays de almacenamiento
     let productos =  JSON.parse(localStorage.getItem("productos")) || [] ;   //array de productos
-    let productosOferta = JSON.parse(JSON.stringify(productos));      //array de productos en oferta (fetch)  
+    let productosOferta = [];      //array de productos en oferta (fetch)  
              //-----FUNCIONES GLOBALES------
 
     //Agregar productos al stock
@@ -191,27 +192,29 @@ export const app = () =>{
     }
 
 
-    /*const obtenerProductosOferta = async (producto) => {
-       const resp = await fetch("/data/productos.json",{
-            method:"POST",
-            body:JSON.stringify(producto),
-            headers:{"Content-type":"application/json; charset=UTF-8",},
-        });
-        const data = await resp.json();
-        console.log(data);
-        return(data);
-
-
-         try{
+    const obtenerProductosOferta = async () => {    // Funcion asincrona Fetch productos.json
+        try{
             const resp = await fetch("/data/productos.json");
             const data = await resp.json();
-            productosOferta= [...data]
+
+            productosOferta = [...data];
             console.log(productosOferta);
-    
+          
+         /*    listaProductosOferta.innerHTML = "";   //lista vacia
+            productos.forEach(producto => {
+                 let tarjetaProductoOferta = document.createElement("div");
+                 tarjetaProductoOferta.classList.add("tarjeta-producto");  // Agregar clase CSS
+                 tarjetaProductoOferta.innerHTML = `<p> ID: ${producto.productoID}</p>
+                                                    <p> PRODUCTO: ${producto.nombre}</p>
+                                                    <p> STOCK: ${producto.stock} unid.</p>
+                                                    <p> PRECIO: $ ${producto.precio}</p>`;
+                 listaProductosOferta.appendChild(tarjetaProductoOferta);
+            }); */
+
         }catch(error){
             console.log(error);
-        } ; */
-     
+        } ; 
+    }
  
                // ------EJECUTANDO APLICACION------
     console.log("Ejecutando aplicación");
@@ -250,14 +253,7 @@ export const app = () =>{
         formModificarPrecio.reset();
         actualizarListaProductos();
     };
-  /*   formAgregarOferta.onsubmit = (event) => {
-        event.preventDefault();
-        obtenerProductosOferta();
-        console.log(productos);
-        formAgregarOferta.reset();
-        actualizarListaProductos();
-    }; */
-    
+
     document.getElementById("btnActualizarLista").addEventListener("click", () => {
         actualizarListaProductos();
         Swal.fire({
@@ -292,6 +288,16 @@ export const app = () =>{
                     actualizarListaProductos();
                 }
             });
+
+    });
+    document.getElementById("btnListaOfertas").addEventListener("click", () => {
+       obtenerProductosOferta();  
+       Swal.fire({
+        title: "Se cargo el listado de productos en ofertas",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 4000
+    });
 
     });
 }

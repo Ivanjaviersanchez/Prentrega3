@@ -1,0 +1,8 @@
+[
+    {"nombre": "tv oferta", "stock": "50", "precio": "199999", "productoID": "0"},
+    {"nombre": "notebook oferta", "stock": "30", "precio": "499999", "productoID": "1"},
+    {"nombre": "heladera oferta", "stock": "25", "precio": "399999", "productoID": "2"},
+    {"nombre": "lavarropas oferta", "stock": "25", "precio": "599999", "productoID": "3"},
+    {"nombre": "cocina oferta", "stock": "25", "precio": "299999", "productoID": "4"},
+    {"nombre": "calefon oferta", "stock": "15", "precio": "179999", "productoID": "5"}
+]
