@@ -1,5 +1,6 @@
- //Importa la libreria sweetalert2
+ //IMPORTA LAS LIBRERIAS
 import Swal from 'sweetalert2' 
+import { v4 } from "uuid"
 
 export const app = () =>{          
            //-----VARIABLES GLOBALES-----  
@@ -19,7 +20,7 @@ export const app = () =>{
              //-----FUNCIONES GLOBALES------
 
     //CONSTRUCTOR CLASE Producto
-    let productoID = productos.length;        
+    let productoID = v4();        
     class Producto {
         constructor(nombre, stock, precio){
             this.nombre = nombre;
@@ -31,7 +32,6 @@ export const app = () =>{
 
     //FUNCIONES DEL FORMULARIO formIngresar
     const cargarProducto = (producto) => {
-        productoID++;
         producto.nombre = producto.nombre.toLowerCase();
         productos.push(producto);
         
@@ -202,7 +202,7 @@ export const app = () =>{
             productosOferta = [...data];
             console.log(productosOferta);
             
-            /* listaProductosOferta.innerHTML = "";   //lista vacia */ 
+            listaProductosOferta.innerHTML = "";   //lista vacia  
             productosOferta.forEach(producto => {
                 let tarjetaProductoOferta = document.createElement("div");
                 tarjetaProductoOferta.classList.add("tarjeta-producto");  // Agregar clase CSS

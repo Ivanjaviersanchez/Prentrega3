@@ -7,14 +7,16 @@ body {
     /* background-size: cover; */
 }
 h2{
-    color: rgb(106, 183, 235);
+    color: rgb(80, 137, 175);
     text-align: center;
 }
 h3{
-    color: rgb(106, 183, 235);
+    color: rgb(80, 137, 175);
+    text-align: center;
 }
 h4{
     color: rgb(106, 183, 235);
+    text-align: center;
 }
 .formulario {
     width: 350px;
@@ -26,11 +28,12 @@ h4{
 }
 
 .tarjeta-producto {
-    background-color:  rgb(187, 222, 245);
+    background-color:  rgb(187, 204, 215);
     /* Recuadro*/ 
-    width: 300px; 
+    width: 350px; 
     height: 170px;
     border: 2px solid rgb(99, 136, 199);
     margin: 20px;
     padding: 10px;
+    text-align: left;
 }
